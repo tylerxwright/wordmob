@@ -1,15 +1,16 @@
 package com.vallosdck.wordmob.models;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by vallos on 7/1/2016.
  */
-public abstract class AbstractNode <P extends AbstractNode, C extends AbstractNode> {
+public abstract class AbstractNode <S extends AbstractNode, P extends AbstractNode, C extends AbstractNode> {
 	private P parent;
 	private List<C> children;
-	private AbstractNode<P, C> previousSibling;
-	private AbstractNode<P, C> nextSibling;
+	private S previousSibling;
+	private S nextSibling;
 
 	public AbstractNode() {
 
@@ -31,19 +32,28 @@ public abstract class AbstractNode <P extends AbstractNode, C extends AbstractNo
 		this.children = children;
 	}
 
-	public AbstractNode<P, C> getPreviousSibling() {
+	public void setChildren(C... children) {
+		this.children = Arrays.asList(children);
+	}
+
+	public S getPreviousSibling() {
 		return previousSibling;
 	}
 
-	public void setPreviousSibling(AbstractNode<P, C> previousSibling) {
+	public void setPreviousSibling(S previousSibling) {
 		this.previousSibling = previousSibling;
 	}
 
-	public AbstractNode<P, C> getNextSibling() {
+	public S getNextSibling() {
 		return nextSibling;
 	}
 
-	public void setNextSibling(AbstractNode<P, C> nextSibling) {
+	public void setNextSibling(S nextSibling) {
+		this.nextSibling = nextSibling;
+	}
+
+	public void setSiblings(S previousSibling, S nextSibling) {
+		this.previousSibling = previousSibling;
 		this.nextSibling = nextSibling;
 	}
 

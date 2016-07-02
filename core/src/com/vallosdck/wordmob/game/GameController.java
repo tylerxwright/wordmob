@@ -10,6 +10,8 @@ import com.vallosdck.wordmob.Constants;
 import com.vallosdck.wordmob.DirectedGame;
 import com.vallosdck.wordmob.GameManager;
 import com.vallosdck.wordmob.actors.Background;
+import com.vallosdck.wordmob.actors.Clock;
+import com.vallosdck.wordmob.actors.RedX;
 import com.vallosdck.wordmob.actors.WordBubble;
 
 import java.util.ArrayList;
@@ -21,6 +23,9 @@ import java.util.List;
  * Created by vallos on 6/28/2016.
  */
 public class GameController {
+
+	private static final int MAX_MISSES = 3;
+	private static final double START_TIME = 5f;
 
 	public int currentWordIndex;
 	public int sentenceLength;
@@ -35,20 +40,35 @@ public class GameController {
 	private String sentence;
 	private State state;
 	private int misses;
+	private List<WordBubble> wordBubbleList;
+	private List<RedX> redXList;
+	private Clock clock;
+	private Label timer;
+	private double time;
 
 	public GameController(DirectedGame game, Stage stage) {
 		this.game = game;
 		this.stage = stage;
-		this.misses = 0;
+
+		configureStage();
 		initialize();
 	}
 
 	public void start() {
-		configureStage();
+		timer.setText(String.format("%.2f", time));
 		startPregame();
 	}
 
 	public void update(float delta) {
+
+		if(state == State.GAME) {
+			time -= delta;
+			timer.setText(String.format("%.2f", time));
+			if(time <= 0) {
+				reset();
+			}
+		}
+
 		if(state == State.GAME && currentWordIndex == sentenceLength) {
 			state = State.ENDGAME;
 			startEndgame();
@@ -56,16 +76,53 @@ public class GameController {
 	}
 
 	public void onHitWrongWord() {
-
+		misses++;
+		if(misses > MAX_MISSES) {
+			initialize();
+			start();
+		} else {
+			int xPadding = 5;
+			RedX redX = new RedX();
+			if(redXList.size() == 0) {
+				redX.setPosition(stage.getWidth() - (xPadding*MAX_MISSES + redX.getWidth()*MAX_MISSES + xPadding), xPadding);
+			} else {
+				redX.setPosition(redXList.get(redXList.size()-1).getX() + redX.getWidth() +  xPadding, xPadding);
+			}
+			redXList.add(redX);
+			stage.addActor(redX);
+		}
 	}
 
 	private void initialize() {
+		misses = 0;
+		time = START_TIME;
+		redXList = new ArrayList<RedX>();
 		state = State.PREGAME;
 		sentence = GameManager.instance.currentLine.sentence;
 	}
 
+	private void reset() {
+		for(WordBubble wordBubble : wordBubbleList) {
+			wordBubble.remove();
+		}
+
+		for(RedX redX : redXList) {
+			redX.remove();
+		}
+		initialize();
+		start();
+	}
+
 	private void configureStage() {
 		stage.addActor(new Background());
+
+		clock = new Clock();
+		clock.setPosition(5, stage.getHeight()-clock.getHeight() - 5);
+		stage.addActor(clock);
+
+		timer = new Label(String.format("%.2f", time), new Label.LabelStyle(Assets.instance.fonts.defaultSmall, new Color(Color.WHITE)));
+		timer.setPosition(clock.getX() + clock.getWidth() + 10, stage.getHeight()-clock.getHeight() - 4);
+		stage.addActor(timer);
 	}
 
 	private void startPregame() {
@@ -101,7 +158,7 @@ public class GameController {
 
 	private void setupGame() {
 		currentWordIndex = 0;
-		List<WordBubble> wordBubbleList = new ArrayList<WordBubble>();
+		wordBubbleList = new ArrayList<WordBubble>();
 
 		List<String> sentenceList = Arrays.asList(sentence.split("\\s+"));
 		sentenceLength = sentenceList.size();
@@ -147,27 +204,23 @@ public class GameController {
 						if(GameManager.instance.anyMoreLines()) {
 							try {
 								GameManager.instance.nextLine();
-								initialize();
-								start();
+								reset();
 							} catch(Exception e){}
 						} else {
-							if(GameManager.instance.anyMoreParagraphs()) {
+							if(GameManager.instance.anyMorePages()) {
 								try {
-									GameManager.instance.nextParagraph();
-									initialize();
-									start();
+									GameManager.instance.nextPage();
+									reset();
 								} catch(Exception e) {}
 							} else {
 								if(GameManager.instance.anyMoreChapters()) {
 									try {
 										GameManager.instance.nextChapter();
-										initialize();
-										start();
+										reset();
 									} catch(Exception e) {}
 								} else {
 									GameManager.instance.reset();
-									initialize();
-									start();
+									reset();
 								}
 							}
 						}

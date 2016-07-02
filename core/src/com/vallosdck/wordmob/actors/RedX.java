@@ -9,14 +9,16 @@ import com.vallosdck.wordmob.Assets;
  * Created by vallos on 6/30/2016.
  */
 public class RedX extends Actor{
-	private TextureRegion background;
+	private TextureRegion redX;
 
 	public RedX() {
-		background = Assets.instance.redX.redX;
+		redX = Assets.instance.redX.redX;
+		setWidth(redX.getRegionWidth());
+		setHeight(redX.getRegionHeight());
 	}
 
 	@Override
 	public void draw(Batch batch, float alpha) {
-		batch.draw(background, getX(), getY(), background.getRegionWidth(), background.getRegionHeight());
+		batch.draw(redX, getX(), getY(), redX.getRegionWidth(), redX.getRegionHeight());
 	}
 }

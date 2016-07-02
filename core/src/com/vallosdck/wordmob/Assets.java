@@ -18,6 +18,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	public static final Assets instance = new Assets();
 
 	public AssetBackground background;
+	public AssetClock clock;
 	public AssetFonts fonts;
 	public AssetRedX redX;
 	public AssetWordBubble wordBubble;
@@ -45,8 +46,9 @@ public class Assets implements Disposable, AssetErrorListener {
 			t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		}
 
-		fonts = new AssetFonts();
 		background = new AssetBackground(atlas);
+		clock = new AssetClock(atlas);
+		fonts = new AssetFonts();
 		redX = new AssetRedX(atlas);
 		wordBubble = new AssetWordBubble(atlas);
 	}
@@ -90,6 +92,14 @@ public class Assets implements Disposable, AssetErrorListener {
 
 		public AssetBackground(TextureAtlas atlas) {
 			background = atlas.findRegion("background-holder");
+		}
+	}
+
+	public class AssetClock {
+		public final TextureAtlas.AtlasRegion clock;
+
+		public AssetClock(TextureAtlas atlas) {
+			clock = atlas.findRegion("clock");
 		}
 	}
 

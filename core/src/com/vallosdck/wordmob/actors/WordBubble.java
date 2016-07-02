@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.utils.Timer;
 import com.vallosdck.wordmob.game.GameController;
 import com.vallosdck.wordmob.screens.GameScreen;
 
@@ -49,12 +50,18 @@ public class WordBubble extends Group {
 		Actor result = super.hit(x, y, touchable);
 		if(result != null) {
 			if(Gdx.input.justTouched()) {
+				setTouchable(Touchable.disabled);
 				if(controller.currentWordIndex == index) {
-					this.setTouchable(Touchable.disabled);
-					this.setVisible(false);
+					setVisible(false);
 					controller.currentWordIndex++;
 				} else {
 					controller.onHitWrongWord();
+					Timer.schedule(new Timer.Task() {
+						@Override
+						public void run() {
+							setTouchable(Touchable.enabled);
+						}
+					}, 1, 1, 0);
 				}
 			}
 		}
