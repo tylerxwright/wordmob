@@ -1,0 +1,40 @@
+Pack.png
+size: 1024, 512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+background-holder
+  rotate: false
+  xy: 0, 0
+  size: 640, 480
+  orig: 640, 480
+  offset: 0, 0
+  index: -1
+bubble-edge
+  rotate: false
+  xy: 640, 0
+  size: 11, 41
+  orig: 11, 41
+  offset: 0, 0
+  index: -1
+bubble-middle
+  rotate: false
+  xy: 651, 0
+  size: 5, 41
+  orig: 5, 41
+  offset: 0, 0
+  index: -1
+bubble-right
+  rotate: false
+  xy: 656, 0
+  size: 11, 41
+  orig: 11, 41
+  offset: 0, 0
+  index: -1
+x
+  rotate: false
+  xy: 667, 0
+  size: 31, 28
+  orig: 31, 28
+  offset: 0, 0
+  index: -1
