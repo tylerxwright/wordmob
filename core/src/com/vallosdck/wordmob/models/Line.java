@@ -6,7 +6,13 @@ package com.vallosdck.wordmob.models;
 public class Line extends AbstractNode<Line, Page, Line>{
 	public String sentence;
 
-	public Line(String sentence) {
+	public Line() {}
+
+	public String getSentence() {
+		return this.sentence;
+	}
+
+	public void setSentence(String sentence) {
 		this.sentence = sentence;
 	}
 }

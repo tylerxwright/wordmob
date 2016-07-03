@@ -12,9 +12,7 @@ public abstract class AbstractNode <S extends AbstractNode, P extends AbstractNo
 	private S previousSibling;
 	private S nextSibling;
 
-	public AbstractNode() {
-
-	}
+	public AbstractNode() { }
 
 	public P getParent() {
 		return parent;

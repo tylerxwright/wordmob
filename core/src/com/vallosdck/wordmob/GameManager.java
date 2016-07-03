@@ -1,10 +1,17 @@
 package com.vallosdck.wordmob;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
+import com.vallosdck.wordmob.models.AbstractNode;
 import com.vallosdck.wordmob.models.Book;
 import com.vallosdck.wordmob.models.Chapter;
 import com.vallosdck.wordmob.models.Library;
 import com.vallosdck.wordmob.models.Line;
 import com.vallosdck.wordmob.models.Page;
+
+import java.util.List;
 
 /**
  * Created by vallos on 6/30/2016.
@@ -23,10 +30,104 @@ public class GameManager {
 	private GameManager() {}
 
 	public void init() {
+		loadData();
+	}
 
-		library = new Library();
+	public void reset() {
+		init();
+		currentBook = library.getChildren().get(0);
+		currentChapter = currentBook.getChildren().get(0);
+		currentPage = currentChapter.getChildren().get(0);
+		currentLine = currentPage.getChildren().get(0);
+	}
 
-		Book book1 = new Book("Book 1", "The first book");
+	public boolean anyMoreBooks() {
+		return currentBook.getNextSibling() != null;
+	}
+
+	public boolean anyMoreChapters() {
+		return currentChapter.getNextSibling() != null;
+	}
+
+	public boolean anyMorePages() {
+		return currentPage.getNextSibling() != null;
+	}
+
+	public boolean anyMoreLines() {
+		return currentLine.getNextSibling() != null;
+	}
+
+	public Book nextBook() throws Exception {
+		if(anyMoreBooks()) {
+			currentBook = currentBook.getNextSibling();
+			currentChapter = currentBook.getChildren().get(0);
+			currentPage = currentChapter.getChildren().get(0);
+			currentLine = currentPage.getChildren().get(0);
+			return currentBook;
+		}
+		throw new Exception("No more books");
+	}
+
+	public Chapter nextChapter() throws Exception {
+		if(anyMoreChapters()) {
+			currentChapter = currentChapter.getNextSibling();
+			currentPage = currentChapter.getChildren().get(0);
+			currentLine = currentPage.getChildren().get(0);
+			return currentChapter;
+		}
+		throw new Exception("No more chapters");
+	}
+
+	public Page nextPage() throws Exception {
+		if(anyMorePages()) {
+			currentPage = currentPage.getNextSibling();
+			currentLine = currentPage.getChildren().get(0);
+			return currentPage;
+		}
+		throw new Exception("No more paragraphs");
+	}
+
+	public Line nextLine() throws Exception {
+		if(anyMoreLines()) {
+			currentLine = currentLine.getNextSibling();
+			return currentLine;
+		}
+		throw new Exception("No more lines");
+	}
+
+	private void loadData() {
+		FileHandle libraryJson = Gdx.files.internal("data/library.json");
+		Json json = new Json();
+		json.setOutputType(JsonWriter.OutputType.minimal);
+		library = json.fromJson(Library.class, libraryJson.readString());
+
+		for(Book book : library.getChildren()) {
+			buildRelationships(book);
+		}
+
+		int x = 1;
+	}
+
+	private <T extends AbstractNode> void buildRelationships(T parent) {
+		List<T> children = parent.getChildren();
+		if(children != null && children.size() > 0) {
+			T previousSibling = null;
+			for(T child : children) {
+				buildRelationships(child);
+				child.setParent(parent);
+				if(previousSibling != null) {
+					child.setPreviousSibling(previousSibling);
+					previousSibling.setNextSibling(child);
+				}
+				previousSibling = child;
+			}
+		}
+	}
+
+	private void manuallyLoadData() {
+		/*library = new Library();
+
+		Book book1 = new Book();
 
 		Chapter chapter1 = new Chapter("Chapter 1", "The first chapter");
 		Chapter chapter2 = new Chapter("Chapter 2", "The second chapter");
@@ -101,68 +202,6 @@ public class GameManager {
 		line21.setSiblings(line20, line22);
 		line22.setSiblings(line21, line23);
 		line23.setSiblings(line22, line24);
-		line24.setPreviousSibling(line23);
-	}
-
-	public void reset() {
-		init();
-		currentBook = library.getChildren().get(0);
-		currentChapter = currentBook.getChildren().get(0);
-		currentPage = currentChapter.getChildren().get(0);
-		currentLine = currentPage.getChildren().get(0);
-	}
-
-	public boolean anyMoreBooks() {
-		return currentBook.getNextSibling() != null;
-	}
-
-	public boolean anyMoreChapters() {
-		return currentChapter.getNextSibling() != null;
-	}
-
-	public boolean anyMorePages() {
-		return currentPage.getNextSibling() != null;
-	}
-
-	public boolean anyMoreLines() {
-		return currentLine.getNextSibling() != null;
-	}
-
-	public Book nextBook() throws Exception {
-		if(anyMoreBooks()) {
-			currentBook = currentBook.getNextSibling();
-			currentChapter = currentBook.getChildren().get(0);
-			currentPage = currentChapter.getChildren().get(0);
-			currentLine = currentPage.getChildren().get(0);
-			return currentBook;
-		}
-		throw new Exception("No more books");
-	}
-
-	public Chapter nextChapter() throws Exception {
-		if(anyMoreChapters()) {
-			currentChapter = currentChapter.getNextSibling();
-			currentPage = currentChapter.getChildren().get(0);
-			currentLine = currentPage.getChildren().get(0);
-			return currentChapter;
-		}
-		throw new Exception("No more chapters");
-	}
-
-	public Page nextPage() throws Exception {
-		if(anyMorePages()) {
-			currentPage = currentPage.getNextSibling();
-			currentLine = currentPage.getChildren().get(0);
-			return currentPage;
-		}
-		throw new Exception("No more paragraphs");
-	}
-
-	public Line nextLine() throws Exception {
-		if(anyMoreLines()) {
-			currentLine = currentLine.getNextSibling();
-			return currentLine;
-		}
-		throw new Exception("No more lines");
+		line24.setPreviousSibling(line23);*/
 	}
 }

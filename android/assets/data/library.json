@@ -1,0 +1,77 @@
+{
+	class: com.vallosdck.wordmob.models.Library,
+	children: [
+		{
+			class: com.vallosdck.wordmob.models.Book,
+			name: "Book 1",
+			description: "The first book",
+			children: [
+				{
+					class: com.vallosdck.wordmob.models.Chapter,
+					name: "Chapter 1",
+					description: "The first chapter",
+					children: [
+						{
+							class: com.vallosdck.wordmob.models.Page,
+							children: [
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "A long time ago",
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "Very close to here",
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "There lived a man",
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "A very strange man",
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "His name was Steve",
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "Steve would save the world",
+								},
+							]
+						},
+						{
+							class: com.vallosdck.wordmob.models.Page,
+							children: [
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "Steve led a simple life",
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "He had no wife or kids",
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "He worked a boring job",
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "And he was always alone",
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "Except for his dog Max",
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "Max was his only friend",
+								},
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
