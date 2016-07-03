@@ -37,7 +37,7 @@ public class WordBubble extends Group {
 
 		setWidth(leftEdge.getWidth() + middle.getWidth() + rightEdge.getWidth());
 		setHeight(middle.getHeight());
-		setOrigin(this.getWidth()/2, this.getHeight()/2);
+		setOrigin(0, 0);
 		setRotation(0);
 
 		addActor(leftEdge);

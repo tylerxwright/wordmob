@@ -38,9 +38,23 @@ clock
   orig: 29, 28
   offset: 0, 0
   index: -1
-x
+star-empty
   rotate: false
   xy: 696, 0
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+star-filled
+  rotate: false
+  xy: 824, 0
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+x
+  rotate: false
+  xy: 952, 0
   size: 31, 28
   orig: 31, 28
   offset: 0, 0

@@ -17,26 +17,32 @@
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "A long time ago",
+									time: 10.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "Very close to here",
+									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "There lived a man",
+									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "A very strange man",
+									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "His name was Steve",
+									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "Steve would save the world",
+									time: 5.0
 								},
 							]
 						},
@@ -46,26 +52,109 @@
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "Steve led a simple life",
+									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "He had no wife or kids",
+									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "He worked a boring job",
+									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "And he was always alone",
+									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "Except for his dog Max",
+									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
 									sentence: "Max was his only friend",
+									time: 5.0
+								},
+							]
+						}
+					]
+				},
+				{
+					class: com.vallosdck.wordmob.models.Chapter,
+					name: "Chapter 2",
+					description: "The second chapter",
+					children: [
+						{
+							class: com.vallosdck.wordmob.models.Page,
+							children: [
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "One day Steve went walking",
+									time: 5.0
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "He walked down the block",
+									time: 5.0
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "He walked through town",
+									time: 5.0
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "Steve walked over the tracks",
+									time: 5.0
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "Steve just kept on walking",
+									time: 5.0
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "Max walked by his side",
+									time: 5.0
+								},
+							]
+						},
+						{
+							class: com.vallosdck.wordmob.models.Page,
+							children: [
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "Steve did not look back",
+									time: 5.0
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "He had decided his fate",
+									time: 5.0
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "His past was left behind",
+									time: 5.0
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "Along with his boring life",
+									time: 5.0
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "No one would miss him",
+									time: 5.0
+								},
+								{
+									class: com.vallosdck.wordmob.models.Line,
+									sentence: "Steve was breaking free",
+									time: 5.0
 								},
 							]
 						}

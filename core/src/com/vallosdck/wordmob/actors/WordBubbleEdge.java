@@ -1,5 +1,6 @@
 package com.vallosdck.wordmob.actors;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -27,6 +28,7 @@ public class WordBubbleEdge extends Actor {
 	@Override
 	public void draw(Batch batch, float alpha) {
 
+		batch.setColor(new Color(87/255f, 119/255f, 240/255f, 1f));
 		batch.draw(bubbleEdge.getTexture(),
 				getX(), getY(),
 				getOriginX(), getOriginY(),
@@ -37,7 +39,7 @@ public class WordBubbleEdge extends Actor {
 				bubbleEdge.getRegionWidth(), bubbleEdge.getRegionHeight(),
 				flip, false);
 
-		setWidth(bubbleEdge.getRegionWidth());
+		batch.setColor(Color.WHITE);
 	}
 
 }

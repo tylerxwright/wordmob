@@ -11,6 +11,7 @@ import com.vallosdck.wordmob.DirectedGame;
 import com.vallosdck.wordmob.GameManager;
 import com.vallosdck.wordmob.actors.Background;
 import com.vallosdck.wordmob.actors.Clock;
+import com.vallosdck.wordmob.actors.Rating;
 import com.vallosdck.wordmob.actors.RedX;
 import com.vallosdck.wordmob.actors.WordBubble;
 
@@ -25,7 +26,6 @@ import java.util.List;
 public class GameController {
 
 	private static final int MAX_MISSES = 3;
-	private static final double START_TIME = 5f;
 
 	public int currentWordIndex;
 	public int sentenceLength;
@@ -49,6 +49,10 @@ public class GameController {
 	public GameController(DirectedGame game, Stage stage) {
 		this.game = game;
 		this.stage = stage;
+
+		if(Constants.DEBUG) {
+			this.stage.setDebugAll(true);
+		}
 
 		configureStage();
 		initialize();
@@ -78,8 +82,7 @@ public class GameController {
 	public void onHitWrongWord() {
 		misses++;
 		if(misses > MAX_MISSES) {
-			initialize();
-			start();
+			reset();
 		} else {
 			int xPadding = 5;
 			RedX redX = new RedX();
@@ -95,10 +98,10 @@ public class GameController {
 
 	private void initialize() {
 		misses = 0;
-		time = START_TIME;
+		time = GameManager.instance.currentLine.getTime();
 		redXList = new ArrayList<RedX>();
 		state = State.PREGAME;
-		sentence = GameManager.instance.currentLine.sentence;
+		sentence = GameManager.instance.currentLine.getSentence();
 	}
 
 	private void reset() {
@@ -109,6 +112,7 @@ public class GameController {
 		for(RedX redX : redXList) {
 			redX.remove();
 		}
+
 		initialize();
 		start();
 	}
@@ -127,7 +131,7 @@ public class GameController {
 
 	private void startPregame() {
 		final Label label = new Label(sentence, new Label.LabelStyle(Assets.instance.fonts.defaultNormal, new Color(Color.WHITE)));
-		label.setPosition(10, 50);
+		label.setPosition(20, 50);
 		label.setFontScaleY(0.001f);
 		stage.addActor(label);
 
@@ -149,6 +153,7 @@ public class GameController {
 				Actions.run(new Runnable() {
 								@Override
 								public void run() {
+									label.remove();
 									setupGame();
 								}
 							}
@@ -191,42 +196,47 @@ public class GameController {
 	}
 
 	private void startEndgame() {
-		final Label label = new Label("You Won!", new Label.LabelStyle(Assets.instance.fonts.defaultNormal, new Color(Color.WHITE)));
-		label.setPosition(Constants.VIEWPORT_WIDTH/2-label.getWidth()/2, Constants.VIEWPORT_HEIGHT/2-label.getHeight()/2);
-		stage.addActor(label);
+		double startTime = GameManager.instance.currentLine.getTime();
+		Double starRating = time/(startTime/4);
+		final Rating rating = new Rating(starRating.intValue());
+		rating.setPosition(stage.getWidth()/2-rating.getWidth()/2, stage.getHeight()/2-rating.getHeight()/2);
+		stage.addActor(rating);
 
-		label.addAction(Actions.sequence(
-				//Actions.delay(2),
+		stage.addAction(Actions.sequence(
+				Actions.delay(2),
 				Actions.run(new Runnable() {
 					@Override
 					public void run() {
-						label.remove();
-						if(GameManager.instance.anyMoreLines()) {
-							try {
-								GameManager.instance.nextLine();
-								reset();
-							} catch(Exception e){}
-						} else {
-							if(GameManager.instance.anyMorePages()) {
-								try {
-									GameManager.instance.nextPage();
-									reset();
-								} catch(Exception e) {}
-							} else {
-								if(GameManager.instance.anyMoreChapters()) {
-									try {
-										GameManager.instance.nextChapter();
-										reset();
-									} catch(Exception e) {}
-								} else {
-									GameManager.instance.reset();
-									reset();
-								}
-							}
-						}
-
+						rating.remove();
+						endgame();
 					}
 				})
 		));
+	}
+
+	private void endgame() {
+		if(GameManager.instance.anyMoreLines()) {
+			try {
+				GameManager.instance.nextLine();
+				reset();
+			} catch(Exception e){}
+		} else {
+			if(GameManager.instance.anyMorePages()) {
+				try {
+					GameManager.instance.nextPage();
+					reset();
+				} catch(Exception e) {}
+			} else {
+				if(GameManager.instance.anyMoreChapters()) {
+					try {
+						GameManager.instance.nextChapter();
+						reset();
+					} catch(Exception e) {}
+				} else {
+					GameManager.instance.reset();
+					reset();
+				}
+			}
+		}
 	}
 }
