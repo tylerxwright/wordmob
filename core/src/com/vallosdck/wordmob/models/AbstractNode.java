@@ -11,6 +11,7 @@ public abstract class AbstractNode <S extends AbstractNode, P extends AbstractNo
 	private List<C> children;
 	private S previousSibling;
 	private S nextSibling;
+	private int index;
 
 	public AbstractNode() { }
 
@@ -53,6 +54,14 @@ public abstract class AbstractNode <S extends AbstractNode, P extends AbstractNo
 	public void setSiblings(S previousSibling, S nextSibling) {
 		this.previousSibling = previousSibling;
 		this.nextSibling = nextSibling;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public int getIndex() {
+		return this.parent.getChildren().indexOf(this);
 	}
 
 	public void addChild(C child) {

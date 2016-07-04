@@ -53,7 +53,7 @@ public class WordBubble extends Group {
 				setTouchable(Touchable.disabled);
 				if(controller.currentWordIndex == index) {
 					setVisible(false);
-					controller.currentWordIndex++;
+					controller.onHitRightWord();
 				} else {
 					controller.onHitWrongWord();
 					Timer.schedule(new Timer.Task() {

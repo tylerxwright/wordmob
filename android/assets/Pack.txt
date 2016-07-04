@@ -3,58 +3,65 @@ size: 1024, 512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-background-holder
-  rotate: false
-  xy: 0, 0
-  size: 640, 480
-  orig: 640, 480
-  offset: 0, 0
-  index: -1
 bubble-edge
   rotate: false
-  xy: 640, 0
+  xy: 0, 0
   size: 11, 41
   orig: 11, 41
   offset: 0, 0
   index: -1
 bubble-middle
   rotate: false
-  xy: 651, 0
+  xy: 13, 0
   size: 5, 41
   orig: 5, 41
   offset: 0, 0
   index: -1
 bubble-right
   rotate: false
-  xy: 656, 0
+  xy: 20, 0
   size: 11, 41
   orig: 11, 41
   offset: 0, 0
   index: -1
 clock
   rotate: false
-  xy: 667, 0
+  xy: 33, 0
   size: 29, 28
   orig: 29, 28
   offset: 0, 0
   index: -1
 star-empty
   rotate: false
-  xy: 696, 0
+  xy: 64, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 star-filled
   rotate: false
-  xy: 824, 0
+  xy: 194, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
+typebar
+  rotate: false
+  xy: 0, 130
+  size: 1000, 106
+  orig: 1000, 106
+  offset: 0, 0
+  index: -1
+typewriter
+  rotate: false
+  xy: 0, 238
+  size: 810, 133
+  orig: 810, 133
+  offset: 0, 0
+  index: -1
 x
   rotate: false
-  xy: 952, 0
+  xy: 812, 238
   size: 31, 28
   orig: 31, 28
   offset: 0, 0

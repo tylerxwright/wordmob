@@ -82,7 +82,7 @@
         <key>textureFormat</key>
         <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
-        <uint>2</uint>
+        <uint>0</uint>
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
@@ -115,7 +115,7 @@
             <key>basic</key>
             <struct type="AlgorithmBasicSettings">
                 <key>sortBy</key>
-                <enum type="AlgorithmBasicSettings::SortBy">Width</enum>
+                <enum type="AlgorithmBasicSettings::SortBy">Best</enum>
                 <key>order</key>
                 <enum type="AlgorithmBasicSettings::Order">Ascending</enum>
             </struct>
@@ -174,7 +174,7 @@
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMargin</key>
-            <uint>5</uint>
+            <uint>1</uint>
             <key>trimMode</key>
             <enum type="SpriteSettings::TrimMode">None</enum>
             <key>tracerTolerance</key>
@@ -188,9 +188,14 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">art/background-holder.jpg</key>
             <key type="filename">art/bubble-edge.png</key>
             <key type="filename">art/bubble-middle.png</key>
+            <key type="filename">art/bubble-right.png</key>
+            <key type="filename">art/clock.png</key>
+            <key type="filename">art/star-empty.png</key>
+            <key type="filename">art/star-filled.png</key>
+            <key type="filename">art/typebar.png</key>
+            <key type="filename">art/typewriter.png</key>
             <key type="filename">art/x.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

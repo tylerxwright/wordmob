@@ -43,7 +43,7 @@ public class WordBubbleMiddle extends Actor {
 	@Override
 	public void draw(Batch batch, float alpha) {
 
-		batch.setColor(new Color(87/255f, 119/255f, 240/255f, 1f));
+		/*batch.setColor(new Color(87/255f, 119/255f, 240/255f, 1f));
 		batch.draw(bubbleMiddle.getTexture(),
 				getX(), getY(),
 				getOriginX(), getOriginY(),
@@ -54,7 +54,7 @@ public class WordBubbleMiddle extends Actor {
 				bubbleMiddle.getRegionWidth(), bubbleMiddle.getRegionHeight(),
 				false, false);
 
-		batch.setColor(Color.WHITE);
+		batch.setColor(Color.WHITE);*/
 
 		font.draw(batch, glyphLayout, getX() + paddingLeft, getY() + glyphLayout.height + paddingTop);
 	}

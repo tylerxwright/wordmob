@@ -9,10 +9,11 @@ import com.vallosdck.wordmob.Assets;
 import com.vallosdck.wordmob.Constants;
 import com.vallosdck.wordmob.DirectedGame;
 import com.vallosdck.wordmob.GameManager;
-import com.vallosdck.wordmob.actors.Background;
 import com.vallosdck.wordmob.actors.Clock;
 import com.vallosdck.wordmob.actors.Rating;
 import com.vallosdck.wordmob.actors.RedX;
+import com.vallosdck.wordmob.actors.TypeBar;
+import com.vallosdck.wordmob.actors.TypeWriter;
 import com.vallosdck.wordmob.actors.WordBubble;
 
 import java.util.ArrayList;
@@ -38,13 +39,20 @@ public class GameController {
 	private Stage stage;
 
 	private String sentence;
+	List<String> sentenceList;
 	private State state;
 	private int misses;
 	private List<WordBubble> wordBubbleList;
 	private List<RedX> redXList;
 	private Clock clock;
 	private Label timer;
+	private Label chapter;
+	private Label page;
+	private Label line;
 	private double time;
+	TypeBar typeBar;
+	private String completedSentence;
+	private Label typeWriterLine;
 
 	public GameController(DirectedGame game, Stage stage) {
 		this.game = game;
@@ -58,13 +66,59 @@ public class GameController {
 		initialize();
 	}
 
+	private void configureStage() {
+		TypeWriter typeWriter = new TypeWriter();
+		typeWriter.setPosition(0, 0);
+		stage.addActor(typeWriter);
+
+		typeBar = new TypeBar();
+		typeBar.setPosition(0, typeWriter.getHeight());
+		stage.addActor(typeBar);
+
+		clock = new Clock();
+		clock.setPosition(5, stage.getHeight()-clock.getHeight() - 5);
+		stage.addActor(clock);
+
+		timer = new Label(String.format("%.2f", time), new Label.LabelStyle(Assets.instance.fonts.defaultSmall, new Color(Color.WHITE)));
+		timer.setPosition(clock.getX() + clock.getWidth() + 10, stage.getHeight()-clock.getHeight() - 4);
+		stage.addActor(timer);
+
+		line = new Label("Line " + (GameManager.instance.currentLine.getIndex()+1), new Label.LabelStyle(Assets.instance.fonts.defaultSmall, new Color(Color.WHITE)));
+		line.setPosition(stage.getWidth()-line.getWidth()-10, stage.getHeight()-line.getHeight()-5);
+		stage.addActor(line);
+
+		page = new Label("Page " + (GameManager.instance.currentPage.getIndex()+1), new Label.LabelStyle(Assets.instance.fonts.defaultSmall, new Color(Color.WHITE)));
+		page.setPosition(line.getX()-page.getWidth()-10, stage.getHeight()-page.getHeight()-5);
+		stage.addActor(page);
+
+		chapter = new Label("Chapter " + (GameManager.instance.currentChapter.getIndex()+1), new Label.LabelStyle(Assets.instance.fonts.defaultSmall, new Color(Color.WHITE)));
+		chapter.setPosition(page.getX()-chapter.getWidth()-10, stage.getHeight()-chapter.getHeight()-5);
+		stage.addActor(chapter);
+
+		typeWriterLine = new Label(completedSentence, new Label.LabelStyle(Assets.instance.fonts.momsTypewriterNormal, new Color(Color.BLACK)));
+		typeWriterLine.setPosition(10, typeBar.getY()-20);
+		stage.addActor(typeWriterLine);
+	}
+
+	private void initialize() {
+		misses = 0;
+		time = GameManager.instance.currentLine.getTime();
+		line.setText("Line " + (GameManager.instance.currentLine.getIndex()+1));
+		page.setText("Page " + (GameManager.instance.currentPage.getIndex()+1));
+		chapter.setText("Chapter " + (GameManager.instance.currentChapter.getIndex()+1));
+		redXList = new ArrayList<RedX>();
+		state = State.PREGAME;
+		sentence = GameManager.instance.currentLine.getSentence();
+		completedSentence = "";
+		typeBar.setX(0);
+	}
+
 	public void start() {
 		timer.setText(String.format("%.2f", time));
 		startPregame();
 	}
 
 	public void update(float delta) {
-
 		if(state == State.GAME) {
 			time -= delta;
 			timer.setText(String.format("%.2f", time));
@@ -77,6 +131,17 @@ public class GameController {
 			state = State.ENDGAME;
 			startEndgame();
 		}
+	}
+
+	public void onHitRightWord() {
+		// I'm thinking about making a class for the type bar and moving this into that
+		float widthBefore = typeWriterLine.getWidth();
+		completedSentence += sentenceList.get(currentWordIndex) + " ";
+		typeWriterLine.setText(completedSentence);
+		float widthAfter = typeWriterLine.getWidth();
+		typeBar.setX(typeBar.getX() - 30);
+
+		currentWordIndex++;
 	}
 
 	public void onHitWrongWord() {
@@ -96,14 +161,6 @@ public class GameController {
 		}
 	}
 
-	private void initialize() {
-		misses = 0;
-		time = GameManager.instance.currentLine.getTime();
-		redXList = new ArrayList<RedX>();
-		state = State.PREGAME;
-		sentence = GameManager.instance.currentLine.getSentence();
-	}
-
 	private void reset() {
 		for(WordBubble wordBubble : wordBubbleList) {
 			wordBubble.remove();
@@ -117,21 +174,12 @@ public class GameController {
 		start();
 	}
 
-	private void configureStage() {
-		stage.addActor(new Background());
-
-		clock = new Clock();
-		clock.setPosition(5, stage.getHeight()-clock.getHeight() - 5);
-		stage.addActor(clock);
-
-		timer = new Label(String.format("%.2f", time), new Label.LabelStyle(Assets.instance.fonts.defaultSmall, new Color(Color.WHITE)));
-		timer.setPosition(clock.getX() + clock.getWidth() + 10, stage.getHeight()-clock.getHeight() - 4);
-		stage.addActor(timer);
-	}
-
 	private void startPregame() {
-		final Label label = new Label(sentence, new Label.LabelStyle(Assets.instance.fonts.defaultNormal, new Color(Color.WHITE)));
-		label.setPosition(20, 50);
+		final Label label = new Label(sentence, new Label.LabelStyle(Assets.instance.fonts.brainFlowerNormal, new Color(Color.WHITE)));
+
+		// ((800 - (200 + 50))/2) + (200 + 50)
+
+		label.setPosition(stage.getWidth()/2 - label.getWidth()/2, ((stage.getHeight() - (typeBar.getY() + typeBar.getHeight()))/2) + (typeBar.getY() + typeBar.getHeight()) - label.getHeight()/2);
 		label.setFontScaleY(0.001f);
 		stage.addActor(label);
 
@@ -165,7 +213,7 @@ public class GameController {
 		currentWordIndex = 0;
 		wordBubbleList = new ArrayList<WordBubble>();
 
-		List<String> sentenceList = Arrays.asList(sentence.split("\\s+"));
+		sentenceList = Arrays.asList(sentence.split("\\s+"));
 		sentenceLength = sentenceList.size();
 		for(int i = 0; i < sentenceList.size(); i++) {
 			WordBubble wordBubble = new WordBubble(sentenceList.get(i), i, Assets.instance.fonts.defaultNormal, this);
@@ -179,9 +227,9 @@ public class GameController {
 			WordBubble wordBubble = wordBubbleList.get(i);
 
 			if(lastWord == null) {
-				wordBubble.setPosition(20, 50);
+				wordBubble.setPosition(20, ((stage.getHeight() - (typeBar.getY() + typeBar.getHeight()))/2) + (typeBar.getY() + typeBar.getHeight()) - wordBubble.getHeight()/2);
 			} else {
-				wordBubble.setPosition(lastWord.getX() + lastWord.getWidth() + 10f, 50f);
+				wordBubble.setPosition(lastWord.getX() + lastWord.getWidth() + 10f, ((stage.getHeight() - (typeBar.getY() + typeBar.getHeight()))/2) + (typeBar.getY() + typeBar.getHeight()) - wordBubble.getHeight()/2);
 			}
 
 			stage.addActor(wordBubble);
@@ -199,7 +247,7 @@ public class GameController {
 		double startTime = GameManager.instance.currentLine.getTime();
 		Double starRating = time/(startTime/4);
 		final Rating rating = new Rating(starRating.intValue());
-		rating.setPosition(stage.getWidth()/2-rating.getWidth()/2, stage.getHeight()/2-rating.getHeight()/2);
+		rating.setPosition(stage.getWidth()/2-rating.getWidth()/2, ((stage.getHeight() - (typeBar.getY() + typeBar.getHeight()))/2) + (typeBar.getY() + typeBar.getHeight()) - rating.getHeight()/2);
 		stage.addActor(rating);
 
 		stage.addAction(Actions.sequence(

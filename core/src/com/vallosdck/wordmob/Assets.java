@@ -17,7 +17,10 @@ public class Assets implements Disposable, AssetErrorListener {
 	public static final String TAG = Assets.class.getName();
 	public static final Assets instance = new Assets();
 
-	public AssetBackground background;
+	public AssetTypeWriter typeWriter;
+	public AssetTypeBar typeBar;
+	//public AssetTypeFonts typeFont;
+
 	public AssetClock clock;
 	public AssetFonts fonts;
 	public AssetRedX redX;
@@ -47,7 +50,8 @@ public class Assets implements Disposable, AssetErrorListener {
 			t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		}
 
-		background = new AssetBackground(atlas);
+		typeBar = new AssetTypeBar(atlas);
+		typeWriter = new AssetTypeWriter(atlas);
 		clock = new AssetClock(atlas);
 		fonts = new AssetFonts();
 		redX = new AssetRedX(atlas);
@@ -72,28 +76,44 @@ public class Assets implements Disposable, AssetErrorListener {
 		public final BitmapFont defaultSmall;
 		public final BitmapFont defaultNormal;
 		public final BitmapFont defaultBig;
+		public final BitmapFont brainFlowerNormal;
+		public final BitmapFont momsTypewriterNormal;
 
 		public AssetFonts() {
 			// create three fonts using Libgdx's 15px bitmap font
 			defaultSmall = new BitmapFont(Gdx.files.internal("fonts/unispace-32-bold.fnt"), false);
 			defaultNormal = new BitmapFont(Gdx.files.internal("fonts/unispace-32-bold.fnt"), false);
 			defaultBig = new BitmapFont(Gdx.files.internal("fonts/unispace-32-bold.fnt"), false);
+			brainFlowerNormal = new BitmapFont(Gdx.files.internal("fonts/brain-flower-46.fnt"), false);
+			momsTypewriterNormal = new BitmapFont(Gdx.files.internal("fonts/moms-typewriter-24.fnt"), false);
+
 			// set font sizes
 			defaultSmall.getData().setScale(0.50f);
 			defaultNormal.getData().setScale(1.0f);
 			defaultBig.getData().setScale(1.5f);
+
 			// enable linear texture filtering for smooth fonts
 			defaultSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 			defaultNormal.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 			defaultBig.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+			brainFlowerNormal.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+			momsTypewriterNormal.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		}
 	}
 
-	public class AssetBackground {
-		public final TextureAtlas.AtlasRegion background;
+	public class AssetTypeBar {
+		public final TextureAtlas.AtlasRegion typeBar;
 
-		public AssetBackground(TextureAtlas atlas) {
-			background = atlas.findRegion("background-holder");
+		public AssetTypeBar(TextureAtlas atlas) {
+			typeBar = atlas.findRegion("typebar");
+		}
+	}
+
+	public class AssetTypeWriter {
+		public final TextureAtlas.AtlasRegion typeWriter;
+
+		public AssetTypeWriter(TextureAtlas atlas) {
+			typeWriter = atlas.findRegion("typewriter");
 		}
 	}
 

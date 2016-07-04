@@ -8,15 +8,18 @@ import com.vallosdck.wordmob.Assets;
 /**
  * Created by vallos on 6/27/2016.
  */
-public class Background extends Actor {
-	private TextureRegion background;
+public class TypeBar extends Actor {
+	private TextureRegion typeBar;
 
-	public Background() {
-		background = Assets.instance.background.background;
+	public TypeBar() {
+		typeBar = Assets.instance.typeBar.typeBar;
+
+		setWidth(typeBar.getRegionWidth());
+		setHeight(typeBar.getRegionHeight());
 	}
 
 	@Override
 	public void draw(Batch batch, float alpha) {
-		batch.draw(background, getX(), getY(), background.getRegionWidth(), background.getRegionHeight());
+		batch.draw(typeBar, getX(), getY(), typeBar.getRegionWidth(), typeBar.getRegionHeight());
 	}
 }
