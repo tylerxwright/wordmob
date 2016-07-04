@@ -13,11 +13,9 @@ import com.vallosdck.wordmob.actors.Clock;
 import com.vallosdck.wordmob.actors.Rating;
 import com.vallosdck.wordmob.actors.RedX;
 import com.vallosdck.wordmob.actors.TypeWriterActor.TypeWriter;
-import com.vallosdck.wordmob.actors.WordBubble;
+import com.vallosdck.wordmob.actors.WordCollectionActor.WordCollection;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,30 +25,26 @@ public class GameController {
 
 	private static final int MAX_MISSES = 3;
 
-	public int currentWordIndex;
-	public int sentenceLength;
-
 	private enum State {
 		PREGAME, GAME, ENDGAME
 	}
 
-	private DirectedGame game;
-	private Stage stage;
+	private final DirectedGame game;
+	private final Stage stage;
 
-	private String sentence;
-	List<String> sentenceList;
-	private State state;
 	private int misses;
-	private List<WordBubble> wordBubbleList;
-	private List<RedX> redXList;
+	private String sentence;
+	private State state;
+	private double time;
+
+	private List<RedX> redXList; // Move to a group
 	private Clock clock;
 	private Label timer;
 	private Label chapter;
 	private Label page;
 	private Label line;
-	private double time;
-	private String completedSentence;
 	private TypeWriter typeWriter;
+	private WordCollection wordCollection;
 
 	public GameController(DirectedGame game, Stage stage) {
 		this.game = game;
@@ -99,7 +93,6 @@ public class GameController {
 		redXList = new ArrayList<RedX>();
 		state = State.PREGAME;
 		sentence = GameManager.instance.currentLine.getSentence();
-		completedSentence = "";
 		typeWriter.reset();
 	}
 
@@ -116,27 +109,18 @@ public class GameController {
 				reset();
 			}
 		}
-
-		if(state == State.GAME && currentWordIndex == sentenceLength) {
-			state = State.ENDGAME;
-			startEndgame();
-		}
 	}
 
-	public void onHitRightWord() {
-		typeWriter.typeWord(sentenceList.get(currentWordIndex));
-
-		// I'm thinking about making a class for the type bar and moving this into that
-		/*float widthBefore = typeWriterLine.getWidth();
-		completedSentence += sentenceList.get(currentWordIndex) + " ";
-		typeWriterLine.setText(completedSentence);
-		float widthAfter = typeWriterLine.getWidth();
-		typeBar.setX(typeBar.getX() - 30);*/
-
-		currentWordIndex++;
+	public void onAllWordsTouched() {
+		state = State.ENDGAME;
+		startEndgame();
 	}
 
-	public void onHitWrongWord() {
+	public void onTouchedRightWord(String word) {
+		typeWriter.typeWord(word);
+	}
+
+	public void onTouchedWrongWord() {
 		misses++;
 		if(misses > MAX_MISSES) {
 			reset();
@@ -154,9 +138,7 @@ public class GameController {
 	}
 
 	private void reset() {
-		for(WordBubble wordBubble : wordBubbleList) {
-			wordBubble.remove();
-		}
+		wordCollection.remove();
 
 		for(RedX redX : redXList) {
 			redX.remove();
@@ -168,8 +150,6 @@ public class GameController {
 
 	private void startPregame() {
 		final Label label = new Label(sentence, new Label.LabelStyle(Assets.instance.fonts.brainFlowerNormal, new Color(Color.WHITE)));
-
-		// ((800 - (200 + 50))/2) + (200 + 50)
 
 		label.setPosition(stage.getWidth()/2 - label.getWidth()/2, ((stage.getHeight() - typeWriter.getHeight())/2 + (typeWriter.getHeight() - label.getHeight()/2)));
 		label.setFontScaleY(0.001f);
@@ -202,31 +182,9 @@ public class GameController {
 	}
 
 	private void setupGame() {
-		currentWordIndex = 0;
-		wordBubbleList = new ArrayList<WordBubble>();
-
-		sentenceList = Arrays.asList(sentence.split("\\s+"));
-		sentenceLength = sentenceList.size();
-		for(int i = 0; i < sentenceList.size(); i++) {
-			WordBubble wordBubble = new WordBubble(sentenceList.get(i), i, Assets.instance.fonts.defaultNormal, this);
-			wordBubbleList.add(wordBubble);
-		}
-
-		Collections.shuffle(wordBubbleList);
-
-		WordBubble lastWord = null;
-		for(int i = 0; i < wordBubbleList.size(); i++) {
-			WordBubble wordBubble = wordBubbleList.get(i);
-
-			if(lastWord == null) {
-				wordBubble.setPosition(20, ((stage.getHeight() - typeWriter.getHeight())/2 + (typeWriter.getHeight() - wordBubble.getHeight()/2)));
-			} else {
-				wordBubble.setPosition(lastWord.getX() + lastWord.getWidth() + 10f, ((stage.getHeight() - typeWriter.getHeight())/2 + (typeWriter.getHeight() - wordBubble.getHeight()/2)));
-			}
-
-			stage.addActor(wordBubble);
-			lastWord = wordBubble;
-		}
+		wordCollection = new WordCollection(sentence, stage.getWidth(), clock.getY() - typeWriter.getWidth(), this);
+		wordCollection.setY(typeWriter.getHeight());
+		stage.addActor(wordCollection);
 
 		startGame();
 	}
