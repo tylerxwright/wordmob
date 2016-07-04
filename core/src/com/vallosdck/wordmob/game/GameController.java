@@ -182,7 +182,7 @@ public class GameController {
 	}
 
 	private void setupGame() {
-		wordCollection = new WordCollection(sentence, stage.getWidth(), clock.getY() - typeWriter.getWidth(), this);
+		wordCollection = new WordCollection(sentence, stage.getWidth(), clock.getY() - typeWriter.getHeight(), this);
 		wordCollection.setY(typeWriter.getHeight());
 		stage.addActor(wordCollection);
 

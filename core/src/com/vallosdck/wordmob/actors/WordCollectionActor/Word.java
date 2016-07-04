@@ -25,6 +25,8 @@ public class Word extends Group {
 
 		setWidth(text.getWidth());
 		setHeight(text.getHeight());
+
+		setOrigin(text.getWidth()/2, text.getHeight()/2);
 	}
 
 	@Override
