@@ -18,8 +18,6 @@ public class Assets implements Disposable, AssetErrorListener {
 	public static final Assets instance = new Assets();
 
 	public AssetTypeWriter typeWriter;
-	public AssetTypeBar typeBar;
-	//public AssetTypeFonts typeFont;
 
 	public AssetClock clock;
 	public AssetFonts fonts;
@@ -50,7 +48,6 @@ public class Assets implements Disposable, AssetErrorListener {
 			t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		}
 
-		typeBar = new AssetTypeBar(atlas);
 		typeWriter = new AssetTypeWriter(atlas);
 		clock = new AssetClock(atlas);
 		fonts = new AssetFonts();
@@ -95,25 +92,19 @@ public class Assets implements Disposable, AssetErrorListener {
 			// enable linear texture filtering for smooth fonts
 			defaultSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 			defaultNormal.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-			defaultBig.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+			defaultBig.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 			brainFlowerNormal.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 			momsTypewriterNormal.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		}
 	}
 
-	public class AssetTypeBar {
-		public final TextureAtlas.AtlasRegion typeBar;
-
-		public AssetTypeBar(TextureAtlas atlas) {
-			typeBar = atlas.findRegion("typebar");
-		}
-	}
-
 	public class AssetTypeWriter {
-		public final TextureAtlas.AtlasRegion typeWriter;
+		public final TextureAtlas.AtlasRegion guide;
+		public final TextureAtlas.AtlasRegion bottom;
 
 		public AssetTypeWriter(TextureAtlas atlas) {
-			typeWriter = atlas.findRegion("typewriter");
+			guide = atlas.findRegion("typewriter-guide");
+			bottom = atlas.findRegion("typewriter-bottom");
 		}
 	}
 

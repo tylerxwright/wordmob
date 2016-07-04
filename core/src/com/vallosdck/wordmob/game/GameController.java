@@ -12,8 +12,7 @@ import com.vallosdck.wordmob.GameManager;
 import com.vallosdck.wordmob.actors.Clock;
 import com.vallosdck.wordmob.actors.Rating;
 import com.vallosdck.wordmob.actors.RedX;
-import com.vallosdck.wordmob.actors.TypeBar;
-import com.vallosdck.wordmob.actors.TypeWriter;
+import com.vallosdck.wordmob.actors.TypeWriterActor.TypeWriter;
 import com.vallosdck.wordmob.actors.WordBubble;
 
 import java.util.ArrayList;
@@ -50,9 +49,8 @@ public class GameController {
 	private Label page;
 	private Label line;
 	private double time;
-	TypeBar typeBar;
 	private String completedSentence;
-	private Label typeWriterLine;
+	private TypeWriter typeWriter;
 
 	public GameController(DirectedGame game, Stage stage) {
 		this.game = game;
@@ -67,13 +65,9 @@ public class GameController {
 	}
 
 	private void configureStage() {
-		TypeWriter typeWriter = new TypeWriter();
+		typeWriter = new TypeWriter();
 		typeWriter.setPosition(0, 0);
 		stage.addActor(typeWriter);
-
-		typeBar = new TypeBar();
-		typeBar.setPosition(0, typeWriter.getHeight());
-		stage.addActor(typeBar);
 
 		clock = new Clock();
 		clock.setPosition(5, stage.getHeight()-clock.getHeight() - 5);
@@ -94,10 +88,6 @@ public class GameController {
 		chapter = new Label("Chapter " + (GameManager.instance.currentChapter.getIndex()+1), new Label.LabelStyle(Assets.instance.fonts.defaultSmall, new Color(Color.WHITE)));
 		chapter.setPosition(page.getX()-chapter.getWidth()-10, stage.getHeight()-chapter.getHeight()-5);
 		stage.addActor(chapter);
-
-		typeWriterLine = new Label(completedSentence, new Label.LabelStyle(Assets.instance.fonts.momsTypewriterNormal, new Color(Color.BLACK)));
-		typeWriterLine.setPosition(10, typeBar.getY()-20);
-		stage.addActor(typeWriterLine);
 	}
 
 	private void initialize() {
@@ -110,7 +100,7 @@ public class GameController {
 		state = State.PREGAME;
 		sentence = GameManager.instance.currentLine.getSentence();
 		completedSentence = "";
-		typeBar.setX(0);
+		typeWriter.reset();
 	}
 
 	public void start() {
@@ -134,12 +124,14 @@ public class GameController {
 	}
 
 	public void onHitRightWord() {
+		typeWriter.typeWord(sentenceList.get(currentWordIndex));
+
 		// I'm thinking about making a class for the type bar and moving this into that
-		float widthBefore = typeWriterLine.getWidth();
+		/*float widthBefore = typeWriterLine.getWidth();
 		completedSentence += sentenceList.get(currentWordIndex) + " ";
 		typeWriterLine.setText(completedSentence);
 		float widthAfter = typeWriterLine.getWidth();
-		typeBar.setX(typeBar.getX() - 30);
+		typeBar.setX(typeBar.getX() - 30);*/
 
 		currentWordIndex++;
 	}
@@ -179,7 +171,7 @@ public class GameController {
 
 		// ((800 - (200 + 50))/2) + (200 + 50)
 
-		label.setPosition(stage.getWidth()/2 - label.getWidth()/2, ((stage.getHeight() - (typeBar.getY() + typeBar.getHeight()))/2) + (typeBar.getY() + typeBar.getHeight()) - label.getHeight()/2);
+		label.setPosition(stage.getWidth()/2 - label.getWidth()/2, ((stage.getHeight() - typeWriter.getHeight())/2 + (typeWriter.getHeight() - label.getHeight()/2)));
 		label.setFontScaleY(0.001f);
 		stage.addActor(label);
 
@@ -227,9 +219,9 @@ public class GameController {
 			WordBubble wordBubble = wordBubbleList.get(i);
 
 			if(lastWord == null) {
-				wordBubble.setPosition(20, ((stage.getHeight() - (typeBar.getY() + typeBar.getHeight()))/2) + (typeBar.getY() + typeBar.getHeight()) - wordBubble.getHeight()/2);
+				wordBubble.setPosition(20, ((stage.getHeight() - typeWriter.getHeight())/2 + (typeWriter.getHeight() - wordBubble.getHeight()/2)));
 			} else {
-				wordBubble.setPosition(lastWord.getX() + lastWord.getWidth() + 10f, ((stage.getHeight() - (typeBar.getY() + typeBar.getHeight()))/2) + (typeBar.getY() + typeBar.getHeight()) - wordBubble.getHeight()/2);
+				wordBubble.setPosition(lastWord.getX() + lastWord.getWidth() + 10f, ((stage.getHeight() - typeWriter.getHeight())/2 + (typeWriter.getHeight() - wordBubble.getHeight()/2)));
 			}
 
 			stage.addActor(wordBubble);
@@ -247,7 +239,7 @@ public class GameController {
 		double startTime = GameManager.instance.currentLine.getTime();
 		Double starRating = time/(startTime/4);
 		final Rating rating = new Rating(starRating.intValue());
-		rating.setPosition(stage.getWidth()/2-rating.getWidth()/2, ((stage.getHeight() - (typeBar.getY() + typeBar.getHeight()))/2) + (typeBar.getY() + typeBar.getHeight()) - rating.getHeight()/2);
+		rating.setPosition(stage.getWidth()/2-rating.getWidth()/2, ((stage.getHeight() - typeWriter.getHeight())/2 + (typeWriter.getHeight() - rating.getHeight()/2)));
 		stage.addActor(rating);
 
 		stage.addAction(Actions.sequence(

@@ -1,25 +1,25 @@
 Pack.png
-size: 1024, 512
+size: 2048, 256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 bubble-edge
   rotate: false
-  xy: 0, 0
+  xy: 20, 0
   size: 11, 41
   orig: 11, 41
   offset: 0, 0
   index: -1
 bubble-middle
   rotate: false
-  xy: 13, 0
+  xy: 0, 0
   size: 5, 41
   orig: 5, 41
   offset: 0, 0
   index: -1
 bubble-right
   rotate: false
-  xy: 20, 0
+  xy: 7, 0
   size: 11, 41
   orig: 11, 41
   offset: 0, 0
@@ -33,35 +33,35 @@ clock
   index: -1
 star-empty
   rotate: false
-  xy: 64, 0
+  xy: 97, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 star-filled
   rotate: false
-  xy: 194, 0
+  xy: 227, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-typebar
+typewriter-bottom
   rotate: false
-  xy: 0, 130
-  size: 1000, 106
-  orig: 1000, 106
-  offset: 0, 0
-  index: -1
-typewriter
-  rotate: false
-  xy: 0, 238
+  xy: 357, 0
   size: 810, 133
   orig: 810, 133
   offset: 0, 0
   index: -1
+typewriter-guide
+  rotate: false
+  xy: 0, 135
+  size: 1600, 106
+  orig: 1600, 106
+  offset: 0, 0
+  index: -1
 x
   rotate: false
-  xy: 812, 238
+  xy: 64, 0
   size: 31, 28
   orig: 31, 28
   offset: 0, 0
