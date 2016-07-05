@@ -16,31 +16,37 @@
 							children: [
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 1,
 									sentence: "A long time ago",
-									time: 10.0
+									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 1,
 									sentence: "Very close to here",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 1,
 									sentence: "There lived a man",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 2,
 									sentence: "A very strange man",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 2,
 									sentence: "His name was Steve",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 3,
 									sentence: "Steve would save the world",
 									time: 5.0
 								},
@@ -51,31 +57,37 @@
 							children: [
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 2,
 									sentence: "Steve led a simple life",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 2,
 									sentence: "He had no wife or kids",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 3,
 									sentence: "He worked a boring job",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 3,
 									sentence: "And he was always alone",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 4,
 									sentence: "Except for his dog Max",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 5,
 									sentence: "Max was his only friend",
 									time: 5.0
 								},
@@ -93,31 +105,37 @@
 							children: [
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 4,
 									sentence: "One day Steve went walking",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 4,
 									sentence: "He walked down the block",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 5,
 									sentence: "He walked through town",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 5,
 									sentence: "Steve walked over the tracks",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 6,
 									sentence: "Steve just kept on walking",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 7,
 									sentence: "Max walked by his side",
 									time: 5.0
 								},
@@ -128,31 +146,37 @@
 							children: [
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 5,
 									sentence: "Steve did not look back",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 6,
 									sentence: "He had decided his fate",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 7,
 									sentence: "His past was left behind",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 8,
 									sentence: "Along with his boring life",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 9,
 									sentence: "No one would miss him",
 									time: 5.0
 								},
 								{
 									class: com.vallosdck.wordmob.models.Line,
+									difficulty: 10,
 									sentence: "Steve was breaking free",
 									time: 5.0
 								},

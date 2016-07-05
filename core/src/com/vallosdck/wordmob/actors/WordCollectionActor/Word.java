@@ -13,9 +13,21 @@ import com.vallosdck.wordmob.Assets;
  * Created by vallos on 7/4/2016.
  */
 public class Word extends Group {
+	private final static float ROTATION_SPEED = 50f;
+
 	private int index;
 	private Label text;
 	private WordCollection parent;
+
+	private boolean isRotating;
+	public void setRotating(boolean isRotating) {
+		this.isRotating = isRotating;
+	}
+
+	private boolean isRotatingClockwise;
+	public void setRotatingClockwise(boolean isRotatingClockwise) {
+		this.isRotatingClockwise = isRotatingClockwise;
+	}
 
 	public Word(int index, String word, WordCollection parent) {
 		this.index = index;
@@ -27,6 +39,17 @@ public class Word extends Group {
 		setHeight(text.getHeight());
 
 		setOrigin(text.getWidth()/2, text.getHeight()/2);
+	}
+
+	@Override
+	public void act (float delta) {
+		if(isRotating) {
+			if(isRotatingClockwise) {
+				setRotation(getRotation() + ROTATION_SPEED * delta);
+			} else {
+				setRotation(getRotation() - ROTATION_SPEED * delta);
+			}
+		}
 	}
 
 	@Override

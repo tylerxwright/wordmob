@@ -13,6 +13,7 @@ import com.vallosdck.wordmob.actors.Clock;
 import com.vallosdck.wordmob.actors.Rating;
 import com.vallosdck.wordmob.actors.RedX;
 import com.vallosdck.wordmob.actors.TypeWriterActor.TypeWriter;
+import com.vallosdck.wordmob.actors.WordCollectionActor.Difficulty;
 import com.vallosdck.wordmob.actors.WordCollectionActor.WordCollection;
 
 import java.util.ArrayList;
@@ -182,7 +183,8 @@ public class GameController {
 	}
 
 	private void setupGame() {
-		wordCollection = new WordCollection(sentence, stage.getWidth(), clock.getY() - typeWriter.getHeight(), this);
+		Difficulty difficulty = new Difficulty(GameManager.instance.currentLine.getDifficulty());
+		wordCollection = new WordCollection(sentence, stage.getWidth(), clock.getY() - typeWriter.getHeight(), difficulty, this);
 		wordCollection.setY(typeWriter.getHeight());
 		stage.addActor(wordCollection);
 
