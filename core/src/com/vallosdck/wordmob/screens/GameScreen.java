@@ -24,7 +24,6 @@ public class GameScreen extends AbstractGameScreen {
 		OrthographicCamera camera = new OrthographicCamera();
 		FitViewport viewport = new FitViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT, camera);
 		viewport.apply();
-		//camera.setToOrtho(true);
 
 		stage = new Stage(viewport);
 
@@ -59,6 +58,7 @@ public class GameScreen extends AbstractGameScreen {
 
 	@Override
 	public void hide() {
+		// TODO: This might not be a good idea
 		stage.dispose();
 	}
 

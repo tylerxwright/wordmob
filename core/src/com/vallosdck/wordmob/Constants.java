@@ -10,4 +10,7 @@ public class Constants {
 	public static final float VIEWPORT_HEIGHT = 480f;
 
 	public static final String TEXTURE_ATLAS_OBJECTS = "Pack.txt";
+	public static final String TEXTURE_ATLAS_LIBGDX_UI = "uiskin.atlas";
+	public static final String SKIN_LIBGDX_UI = "uiskin.json";
+
 }

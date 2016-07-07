@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.vallosdck.wordmob.screens.GameScreen;
+import com.vallosdck.wordmob.screens.MenuScreen;
 
 public class WordMobGame extends DirectedGame {
 
@@ -23,7 +24,8 @@ public class WordMobGame extends DirectedGame {
 		GameManager.instance.init();
 		GameManager.instance.reset();
 
-		setScreen(new GameScreen(this));
+		//setScreen(new GameScreen(this));
+		setScreen(new MenuScreen(this));
 	}
 
 }
