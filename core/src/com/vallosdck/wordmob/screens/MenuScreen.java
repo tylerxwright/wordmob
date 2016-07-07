@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,6 +23,7 @@ import com.vallosdck.wordmob.DirectedGame;
 public class MenuScreen extends AbstractGameScreen {
 
 	private Stage stage;
+	private Skin skinUi;
 	private Skin skinLibgdx;
 
 	public MenuScreen(DirectedGame game) {
@@ -39,22 +40,32 @@ public class MenuScreen extends AbstractGameScreen {
 	}
 
 	private void rebuildStage() {
+		skinUi = new Skin(Gdx.files.internal(Constants.SKIN_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
 		skinLibgdx = new Skin(Gdx.files.internal(Constants.SKIN_LIBGDX_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_LIBGDX_UI));
 
+		Table layerBackground = buildBackgroundLayer();
 		Table layerControls = buildControlsLayer();
 
 		stage.clear();
 		Stack stack = new Stack();
 		stage.addActor(stack);
 		stack.setSize(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+		stack.add(layerBackground);
 		stack.add(layerControls);
 
+	}
+
+	private Table buildBackgroundLayer() {
+		Table layer = new Table();
+		Image imgBackground = new Image(skinUi, "menu-background");
+		layer.add(imgBackground);
+		return layer;
 	}
 
 	private Table buildControlsLayer() {
 		Table layer = new Table();
 		TextButton newGameBtn = new TextButton("New Game", skinLibgdx);
-		layer.add(newGameBtn).padBottom(10);
+		layer.add(newGameBtn).width(150).padBottom(10);
 		newGameBtn.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -65,12 +76,12 @@ public class MenuScreen extends AbstractGameScreen {
 		layer.row();
 
 		TextButton continueBtn = new TextButton("Continue", skinLibgdx);
-		layer.add(continueBtn).padBottom(10);
+		layer.add(continueBtn).width(150).padBottom(10);
 
 		layer.row();
 
 		TextButton optionsBtn = new TextButton("Options", skinLibgdx);
-		layer.add(optionsBtn);
+		layer.add(optionsBtn).width(150);
 
 		return layer;
 	}
@@ -93,6 +104,7 @@ public class MenuScreen extends AbstractGameScreen {
 	@Override
 	public void hide() {
 		stage.dispose();
+		skinUi.dispose();
 		skinLibgdx.dispose();
 	}
 
