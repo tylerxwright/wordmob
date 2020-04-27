@@ -1,0 +1,9 @@
+Storied Todo list:
+
+1. Create splash screen
+2. Create Main Menu Skeleton
+3. Create Main Menu Options
+4. Create Main Menu High Score?
+5. Create Main Menu About
+6. Create Book Screen
+7. Create 

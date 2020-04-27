@@ -27,7 +27,7 @@ public class GameScreen extends AbstractGameScreen {
 
 		stage = new Stage(viewport);
 
-		controller = new GameController(game, stage);
+		controller = new GameController(game, stage, camera);
 	}
 
 	@Override

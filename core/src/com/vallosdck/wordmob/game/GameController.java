@@ -1,6 +1,7 @@
 package com.vallosdck.wordmob.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -9,10 +10,12 @@ import com.vallosdck.wordmob.Assets;
 import com.vallosdck.wordmob.Constants;
 import com.vallosdck.wordmob.DirectedGame;
 import com.vallosdck.wordmob.GameManager;
+import com.vallosdck.wordmob.actors.Background;
 import com.vallosdck.wordmob.actors.Clock;
 import com.vallosdck.wordmob.actors.Rating;
 import com.vallosdck.wordmob.actors.RedX;
 import com.vallosdck.wordmob.actors.TypeWriterActor.TypeWriter;
+import com.vallosdck.wordmob.actors.UiBar;
 import com.vallosdck.wordmob.actors.WordCollectionActor.Difficulty;
 import com.vallosdck.wordmob.actors.WordCollectionActor.WordCollection;
 
@@ -32,6 +35,7 @@ public class GameController {
 
 	private final DirectedGame game;
 	private final Stage stage;
+	private final OrthographicCamera camera;
 
 	private int misses;
 	private String sentence;
@@ -39,6 +43,7 @@ public class GameController {
 	private double time;
 
 	private List<RedX> redXList; // Move to a group
+	private UiBar uiBar;
 	private Clock clock;
 	private Label timer;
 	private Label chapter;
@@ -46,10 +51,12 @@ public class GameController {
 	private Label line;
 	private TypeWriter typeWriter;
 	private WordCollection wordCollection;
+	private Background background;
 
-	public GameController(DirectedGame game, Stage stage) {
+	public GameController(DirectedGame game, Stage stage, OrthographicCamera camera) {
 		this.game = game;
 		this.stage = stage;
+		this.camera = camera;
 
 		if(Constants.DEBUG) {
 			this.stage.setDebugAll(true);
@@ -60,29 +67,38 @@ public class GameController {
 	}
 
 	private void configureStage() {
-		typeWriter = new TypeWriter();
-		typeWriter.setPosition(0, 0);
-		stage.addActor(typeWriter);
+		uiBar = new UiBar();
+		uiBar.setPosition(0, stage.getHeight()-uiBar.getHeight());
 
 		clock = new Clock();
 		clock.setPosition(5, stage.getHeight()-clock.getHeight() - 5);
-		stage.addActor(clock);
 
 		timer = new Label(String.format("%.2f", time), new Label.LabelStyle(Assets.instance.fonts.defaultSmall, new Color(Color.WHITE)));
 		timer.setPosition(clock.getX() + clock.getWidth() + 10, stage.getHeight()-clock.getHeight() - 4);
-		stage.addActor(timer);
 
 		line = new Label("Line " + (GameManager.instance.currentLine.getIndex()+1), new Label.LabelStyle(Assets.instance.fonts.defaultSmall, new Color(Color.WHITE)));
 		line.setPosition(stage.getWidth()-line.getWidth()-10, stage.getHeight()-line.getHeight()-5);
-		stage.addActor(line);
 
 		page = new Label("Page " + (GameManager.instance.currentPage.getIndex()+1), new Label.LabelStyle(Assets.instance.fonts.defaultSmall, new Color(Color.WHITE)));
 		page.setPosition(line.getX()-page.getWidth()-10, stage.getHeight()-page.getHeight()-5);
-		stage.addActor(page);
 
 		chapter = new Label("Chapter " + (GameManager.instance.currentChapter.getIndex()+1), new Label.LabelStyle(Assets.instance.fonts.defaultSmall, new Color(Color.WHITE)));
 		chapter.setPosition(page.getX()-chapter.getWidth()-10, stage.getHeight()-chapter.getHeight()-5);
+
+		typeWriter = new TypeWriter();
+		typeWriter.setPosition(0, stage.getHeight() - typeWriter.getHeight() - uiBar.getHeight());
+
+		background = new Background(stage.getWidth(), typeWriter.getHeight() + uiBar.getHeight(), Color.WHITE, this.camera);
+		background.setPosition(0, stage.getHeight() - typeWriter.getHeight());
+
+		stage.addActor(background);
+		stage.addActor(uiBar);
 		stage.addActor(chapter);
+		stage.addActor(page);
+		stage.addActor(line);
+		stage.addActor(timer);
+		stage.addActor(clock);
+		stage.addActor(typeWriter);
 	}
 
 	private void initialize() {
@@ -152,7 +168,8 @@ public class GameController {
 	private void startPregame() {
 		final Label label = new Label(sentence, new Label.LabelStyle(Assets.instance.fonts.brainFlowerNormal, new Color(Color.WHITE)));
 
-		label.setPosition(stage.getWidth()/2 - label.getWidth()/2, ((stage.getHeight() - typeWriter.getHeight())/2 + (typeWriter.getHeight() - label.getHeight()/2)));
+		//label.setPosition(stage.getWidth()/2 - label.getWidth()/2, ((stage.getHeight() - typeWriter.getHeight())/2 + (typeWriter.getHeight() - label.getHeight()/2)));
+		label.setPosition(stage.getWidth()/2 - label.getWidth()/2, typeWriter.getHeight()/2 - label.getHeight()/2);
 		label.setFontScaleY(0.001f);
 		stage.addActor(label);
 
@@ -184,8 +201,9 @@ public class GameController {
 
 	private void setupGame() {
 		Difficulty difficulty = new Difficulty(GameManager.instance.currentLine.getDifficulty());
-		wordCollection = new WordCollection(sentence, stage.getWidth(), clock.getY() - typeWriter.getHeight(), difficulty, this);
-		wordCollection.setY(typeWriter.getHeight());
+		//wordCollection = new WordCollection(sentence, stage.getWidth(), clock.getY() - typeWriter.getHeight(), difficulty, this);
+		wordCollection = new WordCollection(sentence, stage.getWidth(), stage.getHeight() - typeWriter.getHeight()- uiBar.getHeight(), difficulty, this);
+		wordCollection.setY(0);
 		stage.addActor(wordCollection);
 
 		startGame();
@@ -199,7 +217,7 @@ public class GameController {
 		double startTime = GameManager.instance.currentLine.getTime();
 		Double starRating = time/(startTime/4);
 		final Rating rating = new Rating(starRating.intValue());
-		rating.setPosition(stage.getWidth()/2-rating.getWidth()/2, ((stage.getHeight() - typeWriter.getHeight())/2 + (typeWriter.getHeight() - rating.getHeight()/2)));
+		rating.setPosition(stage.getWidth()/2-rating.getWidth()/2, typeWriter.getHeight()/2 - rating.getHeight()/2);
 		stage.addActor(rating);
 
 		stage.addAction(Actions.sequence(

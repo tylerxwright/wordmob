@@ -188,6 +188,7 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">ui/logo.png</key>
             <key type="filename">ui/menu-background.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

@@ -23,6 +23,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetFonts fonts;
 	public AssetRedX redX;
 	public AssetStar star;
+	public AssetUiBar uiBar;
 	public AssetWordBubble wordBubble;
 	private AssetManager assetManager;
 
@@ -53,6 +54,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		fonts = new AssetFonts();
 		redX = new AssetRedX(atlas);
 		star = new AssetStar(atlas);
+		uiBar = new AssetUiBar(atlas);
 		wordBubble = new AssetWordBubble(atlas);
 	}
 
@@ -131,6 +133,14 @@ public class Assets implements Disposable, AssetErrorListener {
 		public AssetStar(TextureAtlas atlas) {
 			starEmpty = atlas.findRegion("star-empty");
 			starFilled = atlas.findRegion("star-filled");
+		}
+	}
+
+	public class AssetUiBar {
+		public final TextureAtlas.AtlasRegion uiBar;
+
+		public AssetUiBar(TextureAtlas atlas) {
+			uiBar = atlas.findRegion("ui-bar");
 		}
 	}
 

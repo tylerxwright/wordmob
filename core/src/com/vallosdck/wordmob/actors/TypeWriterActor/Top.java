@@ -10,8 +10,8 @@ import com.vallosdck.wordmob.Assets;
  * Created by vallos on 7/4/2016.
  */
 public class Top extends Group {
-	private static final int TEXT_START_X = 430;
-	private static final int TEXT_START_Y = -42;
+	private static final int TEXT_START_X = 400;
+	private static final int TEXT_START_Y = -30;
 
 	private Guide guide;
 	private Label text;

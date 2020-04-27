@@ -24,8 +24,8 @@ public class WordMobGame extends DirectedGame {
 		GameManager.instance.init();
 		GameManager.instance.reset();
 
-		//setScreen(new GameScreen(this));
-		setScreen(new MenuScreen(this));
+		setScreen(new GameScreen(this));
+		//setScreen(new MenuScreen(this));
 	}
 
 }

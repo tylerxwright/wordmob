@@ -39,6 +39,38 @@ public class MenuScreen extends AbstractGameScreen {
 		stage.draw();
 	}
 
+	@Override
+	public void resize(int width, int height) {
+		stage.getViewport().update(width, height, true);
+	}
+
+	@Override
+	public void show() {
+		OrthographicCamera camera = new OrthographicCamera();
+		FitViewport viewport = new FitViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT, camera);
+		viewport.apply();
+
+		stage = new Stage(viewport);
+		rebuildStage();
+	}
+
+	@Override
+	public void hide() {
+		stage.dispose();
+		skinUi.dispose();
+		skinLibgdx.dispose();
+	}
+
+	@Override
+	public void pause() {
+
+	}
+
+	@Override
+	public InputProcessor getInputProcessor() {
+		return stage;
+	}
+
 	private void rebuildStage() {
 		skinUi = new Skin(Gdx.files.internal(Constants.SKIN_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
 		skinLibgdx = new Skin(Gdx.files.internal(Constants.SKIN_LIBGDX_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_LIBGDX_UI));
@@ -84,37 +116,5 @@ public class MenuScreen extends AbstractGameScreen {
 		layer.add(optionsBtn).width(150);
 
 		return layer;
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
-	}
-
-	@Override
-	public void show() {
-		OrthographicCamera camera = new OrthographicCamera();
-		FitViewport viewport = new FitViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT, camera);
-		viewport.apply();
-
-		stage = new Stage(viewport);
-		rebuildStage();
-	}
-
-	@Override
-	public void hide() {
-		stage.dispose();
-		skinUi.dispose();
-		skinLibgdx.dispose();
-	}
-
-	@Override
-	public void pause() {
-
-	}
-
-	@Override
-	public InputProcessor getInputProcessor() {
-		return stage;
 	}
 }

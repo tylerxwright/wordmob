@@ -1,5 +1,8 @@
 {
 	com.badlogic.gdx.scenes.scene2d.ui.Image: {
+		logo: { drawable: logo },
+	}
+	com.badlogic.gdx.scenes.scene2d.ui.Image: {
 		background: { drawable: menu-background },
 	}
 }
