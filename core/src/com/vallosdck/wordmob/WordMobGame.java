@@ -18,13 +18,18 @@ public class WordMobGame extends DirectedGame {
 
 	@Override
 	public void create () {
+		int zero = 0;
+		String str = '';
+		double divideByZero = (1/zero)+str;
+		// This should error
+
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
 		Assets.instance.init(new AssetManager());
-		GameManager.instance.init();
+			GameManager.instance.init();
 		GameManager.instance.reset();
 
-		setScreen(new GameScreen(this));
+		setScreen(new GameScreen(this));;
 		//setScreen(new MenuScreen(this));
 	}
 
