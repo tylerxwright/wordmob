@@ -21,6 +21,7 @@ public class WordMobGame extends DirectedGame {
 		int zero = 0;
 		String str = '';
 		double divideByZero = (1/zero)+str;
+		// This should error
 
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
